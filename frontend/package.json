@@ -1,0 +1,23 @@
+{
+  "name": "kspeech-frontend",
+  "private": true,
+  "version": "0.1.0",
+  "packageManager": "pnpm@11.16.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc --noEmit && vite build",
+    "build:dev": "vue-tsc --noEmit && vite build --mode development --minify false",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@wailsio/runtime": "3.0.0-beta.7",
+    "vue": "3.5.41"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.8",
+    "typescript": "5.9.3",
+    "vite": "8.2.1",
+    "vue-tsc": "3.2.4"
+  }
+}

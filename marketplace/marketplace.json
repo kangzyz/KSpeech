@@ -1,0 +1,293 @@
+{
+    "$schema": "./marketplace.schema.json",
+    "version": 1,
+    "modules": [
+        {
+            "id": "sherpaonnx.streaming-zipformer-multi-zh-hans",
+            "type": "sherpaonnx_model",
+            "name": "中文模型",
+            "author": "N/A",
+            "publisher": "jxlpzqc",
+            "desc": "中文 Zipformer-tranducer 模型",
+            "version": 20231212,
+            "displayVersion": "2023-12-12",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12.tar.bz2",
+                    "sha256": "865308b30fba262182225f7e55ebb02a092566fe25dd6a78ec9dfeb7425dc7ba"
+                },
+                {
+                    "type": "extract"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "sherpaonnx": {
+                "token": "sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/tokens.txt",
+                "encoder": "sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/encoder-epoch-20-avg-1-chunk-16-left-128.onnx",
+                "decoder": "sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/decoder-epoch-20-avg-1-chunk-16-left-128.onnx",
+                "joiner": "sherpa-onnx-streaming-zipformer-multi-zh-hans-2023-12-12/joiner-epoch-20-avg-1-chunk-16-left-128.onnx"
+            }
+        },
+        {
+            "id": "csukuangfj.streaming-zipformer-en",
+            "type": "sherpaonnx_model",
+            "name": "英文模型",
+            "author": "csukuangfj",
+            "publisher": "jxlpzqc",
+            "desc": "英文流式 Zipformer-tranducer 模型",
+            "version": 20230626,
+            "displayVersion": "2023-06-26",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-en-2023-06-26.tar.bz2",
+                    "sha256": "639e25b578e9e997131402199419c13a941f8e4e198e2da1ce57dbf5cf401282"
+                },
+                {
+                    "type": "extract"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "sherpaonnx": {
+                "token": "sherpa-onnx-streaming-zipformer-en-2023-06-26/tokens.txt",
+                "encoder": "sherpa-onnx-streaming-zipformer-en-2023-06-26/encoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+                "decoder": "sherpa-onnx-streaming-zipformer-en-2023-06-26/decoder-epoch-99-avg-1-chunk-16-left-128.onnx",
+                "joiner": "sherpa-onnx-streaming-zipformer-en-2023-06-26/joiner-epoch-99-avg-1-chunk-16-left-128.onnx"
+            }
+        },
+        {
+            "id": "csukuangfj.streaming-zipformer-bilingual-zh-en",
+            "type": "sherpaonnx_model",
+            "name": "中英双语模型",
+            "author": "csukuangfj",
+            "publisher": "jxlpzqc",
+            "desc": "中英双语流式 Zipformer-tranducer 模型",
+            "version": 20230220,
+            "displayVersion": "2023-02-20",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20.tar.bz2",
+                    "sha256": "27ffbd9ee24ad186d99acc2f6354d7992b27bcab490812510665fa8f9389c5f8"
+                },
+                {
+                    "type": "extract"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "sherpaonnx": {
+                "token": "sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/tokens.txt",
+                "encoder": "sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/encoder-epoch-99-avg-1.onnx",
+                "decoder": "sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/decoder-epoch-99-avg-1.onnx",
+                "joiner": "sherpa-onnx-streaming-zipformer-bilingual-zh-en-2023-02-20/joiner-epoch-99-avg-1.onnx"
+            }
+        },
+        {
+            "id": "x-asr.streaming-zipformer-zh-en-480ms",
+            "type": "sherpaonnx_model",
+            "name": "中英双语模型 X-ASR（480ms 低延迟）",
+            "author": "X-ASR",
+            "publisher": "KSpeech",
+            "homepage": "https://github.com/Gilgamesh-J/X-ASR",
+            "desc": "中英双语流式 Zipformer-tranducer 模型，0.16B 参数、约 100 万小时中英语音训练，比默认的 2023 双语模型准得多。480ms 分片，延迟与准确率最平衡的一档。模型自带标点和英文大小写，装完请把「识别引擎 → 标点方式」改成不处理，否则会重复加标点。约 615 MB，只有 fp32 没有 int8，内存和 CPU 占用明显高于默认模型，多路音频同时开请先实测。从 HuggingFace 下载，国内需要代理",
+            "version": 20260729,
+            "displayVersion": "2026-07-29",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-480ms-model/encoder-480ms.onnx",
+                    "sha256": "0c3454033d249081df124ddcd7adaf3deca07d0b999b26f2ee5d2475d37abc74"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-480ms/encoder-480ms.onnx"
+                },
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-480ms-model/decoder-480ms.onnx",
+                    "sha256": "3658368d274a5d5fd39a7ac20c46bed0ad9cfea1f0feddef30d5d89797c1f499"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-480ms/decoder-480ms.onnx"
+                },
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-480ms-model/joiner-480ms.onnx",
+                    "sha256": "03781c98165a2385024c9cecdd2b6b13310d81db23a62c7da420782c2915cf81"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-480ms/joiner-480ms.onnx"
+                },
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-480ms-model/tokens.txt",
+                    "sha256": "b818a60878b9aae978cbb8ad594acbd403d76d1af2e31ef4197c84e2dbdba27c"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-480ms/tokens.txt"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "sherpaonnx": {
+                "token": "x-asr-zh-en-480ms/tokens.txt",
+                "encoder": "x-asr-zh-en-480ms/encoder-480ms.onnx",
+                "decoder": "x-asr-zh-en-480ms/decoder-480ms.onnx",
+                "joiner": "x-asr-zh-en-480ms/joiner-480ms.onnx"
+            }
+        },
+        {
+            "id": "x-asr.streaming-zipformer-zh-en-1920ms",
+            "type": "sherpaonnx_model",
+            "name": "中英双语模型 X-ASR（1920ms 高准确）",
+            "author": "X-ASR",
+            "publisher": "KSpeech",
+            "homepage": "https://github.com/Gilgamesh-J/X-ASR",
+            "desc": "与 480ms 版同一个模型，改用 1920ms 分片：字幕上屏慢约两秒，换来这一系列里最好的准确率（作者自测 WenetSpeech test_meeting 8.03，480ms 是 9.31）。看录播、听讲座这类不在意延迟的场景用它。同样自带标点和英文大小写，装完请把「识别引擎 → 标点方式」改成不处理。约 615 MB，只有 fp32 没有 int8。从 HuggingFace 下载，国内需要代理",
+            "version": 20260729,
+            "displayVersion": "2026-07-29",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-1920ms-model/encoder-1920ms.onnx",
+                    "sha256": "4b631cb46ae8d9210e84887d71970bc149eddd49b7bc59a32dba57bc229c9bc5"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-1920ms/encoder-1920ms.onnx"
+                },
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-1920ms-model/decoder-1920ms.onnx",
+                    "sha256": "3658368d274a5d5fd39a7ac20c46bed0ad9cfea1f0feddef30d5d89797c1f499"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-1920ms/decoder-1920ms.onnx"
+                },
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-1920ms-model/joiner-1920ms.onnx",
+                    "sha256": "03781c98165a2385024c9cecdd2b6b13310d81db23a62c7da420782c2915cf81"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-1920ms/joiner-1920ms.onnx"
+                },
+                {
+                    "type": "download",
+                    "url": "https://huggingface.co/GilgameshWind/X-ASR-zh-en/resolve/main/deployment/models/chunk-1920ms-model/tokens.txt",
+                    "sha256": "b818a60878b9aae978cbb8ad594acbd403d76d1af2e31ef4197c84e2dbdba27c"
+                },
+                {
+                    "type": "save_file",
+                    "savePath": "x-asr-zh-en-1920ms/tokens.txt"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "sherpaonnx": {
+                "token": "x-asr-zh-en-1920ms/tokens.txt",
+                "encoder": "x-asr-zh-en-1920ms/encoder-1920ms.onnx",
+                "decoder": "x-asr-zh-en-1920ms/decoder-1920ms.onnx",
+                "joiner": "x-asr-zh-en-1920ms/joiner-1920ms.onnx"
+            }
+        },
+        {
+            "id": "sherpaonnx.streaming-zipformer-korean",
+            "type": "sherpaonnx_model",
+            "name": "한국어모델",
+            "author": "N/A",
+            "publisher": "jxlpzqc",
+            "desc": "한국어 Zipformer-tranducer 모델",
+            "version": 20240616,
+            "displayVersion": "2024-06-16",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-korean-2024-06-16.tar.bz2",
+                    "sha256": "e346a5882a409650472be17326237e24df7bf409db6b4a8a52e1a61422bf2500"
+                },
+                {
+                    "type": "extract"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "sherpaonnx": {
+                "token": "sherpa-onnx-streaming-zipformer-korean-2024-06-16/tokens.txt",
+                "encoder": "sherpa-onnx-streaming-zipformer-korean-2024-06-16/encoder-epoch-99-avg-1.onnx",
+                "decoder": "sherpa-onnx-streaming-zipformer-korean-2024-06-16/decoder-epoch-99-avg-1.onnx",
+                "joiner": "sherpa-onnx-streaming-zipformer-korean-2024-06-16/joiner-epoch-99-avg-1.onnx"
+            }
+        },
+        {
+            "id": "shaojieli.streaming-zipformer-fr",
+            "type": "sherpaonnx_model",
+            "name": "Modèle français",
+            "author": "shaojieli",
+            "publisher": "jxlpzqc",
+            "desc": "Modèle Zipformer-tranducer français",
+            "version": 20230414,
+            "displayVersion": "2023-04-14",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-streaming-zipformer-fr-2023-04-14.tar.bz2",
+                    "sha256": "77d4cbd61dcfa55fd2c14efc0ce5c6798be5931c05f35df5bab60c921950bb8c"
+                },
+                {
+                    "type": "extract"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "sherpaonnx": {
+                "token": "sherpa-onnx-streaming-zipformer-fr-2023-04-14/tokens.txt",
+                "encoder": "sherpa-onnx-streaming-zipformer-fr-2023-04-14/encoder-epoch-29-avg-9-with-averaged-model.onnx",
+                "decoder": "sherpa-onnx-streaming-zipformer-fr-2023-04-14/decoder-epoch-29-avg-9-with-averaged-model.onnx",
+                "joiner": "sherpa-onnx-streaming-zipformer-fr-2023-04-14/joiner-epoch-29-avg-9-with-averaged-model.onnx"
+            }
+        },
+        {
+            "id": "k2-fsa.punct-ct-transformer-zh-en-int8",
+            "type": "punctuation_model",
+            "name": "中英标点模型",
+            "author": "k2-fsa",
+            "publisher": "KSpeech",
+            "desc": "CT-Transformer 中英标点模型（int8 量化，62 MB）。装完在「识别引擎 → 标点方式」选「标点模型」即可让句子中间也断句加逗号",
+            "version": 20240412,
+            "displayVersion": "2024-04-12",
+            "install": [
+                {
+                    "type": "download",
+                    "url": "https://github.com/k2-fsa/sherpa-onnx/releases/download/punctuation-models/sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8.tar.bz2",
+                    "sha256": "c0d5aa5f8eeb686032345e180bedf39319dc2e0556781c6264bcadba8328a6e1"
+                },
+                {
+                    "type": "extract"
+                },
+                {
+                    "type": "write_module_json"
+                }
+            ],
+            "punctuation": {
+                "model": "sherpa-onnx-punct-ct-transformer-zh-en-vocab272727-2024-04-12-int8/model.int8.onnx"
+            }
+        }
+    ]
+}

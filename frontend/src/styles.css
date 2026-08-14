@@ -1,0 +1,2057 @@
+/*
+ * KSpeech design tokens.
+ *
+ * Dark is the default theme because the caption window floats over arbitrary
+ * screen content. The light theme is a full override applied through
+ * prefers-color-scheme, so every rule below consumes tokens instead of raw
+ * colours.
+ */
+:root {
+  color-scheme: dark;
+
+  --font-ui: "Segoe UI Variable Text", "Segoe UI", "Microsoft YaHei UI", system-ui, sans-serif;
+  --font-mono: "Cascadia Mono", "Consolas", ui-monospace, monospace;
+
+  --bg: #0e1116;
+  --bg-sunken: #0a0d12;
+  --bg-elevated: #161b23;
+  --bg-raised: #1c222c;
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --bg-active: rgba(255, 255, 255, 0.1);
+  --bg-input: rgba(255, 255, 255, 0.04);
+
+  --line: rgba(255, 255, 255, 0.09);
+  --line-strong: rgba(255, 255, 255, 0.16);
+
+  --text: #e7ecf5;
+  --text-muted: #98a3b6;
+  --text-faint: #6a7486;
+
+  --accent: #5b9dff;
+  --accent-hover: #7bb0ff;
+  --accent-ink: #071527;
+  --accent-soft: rgba(91, 157, 255, 0.16);
+  --accent-line: rgba(91, 157, 255, 0.4);
+
+  --danger: #ff7b72;
+  --danger-soft: rgba(255, 123, 114, 0.14);
+  --danger-line: rgba(255, 123, 114, 0.38);
+  --warn: #f2b455;
+  --warn-soft: rgba(242, 180, 85, 0.14);
+  --warn-line: rgba(242, 180, 85, 0.35);
+  --success: #46d39a;
+  --record: #ff5f57;
+
+  /*
+   * One colour per audio input, assigned in the order the inputs are
+   * registered. They keep "me" and "everyone else" apart at a glance, in the
+   * caption window and in the history window alike.
+   */
+  --speaker-1: #5b9dff;
+  --speaker-2: #46d39a;
+  --speaker-3: #f2b455;
+  --speaker-4: #c792ea;
+
+  /* Floating chrome drawn on top of unknown desktop content. */
+  --overlay-bg: rgba(22, 27, 35, 0.82);
+  --overlay-line: rgba(255, 255, 255, 0.14);
+  --overlay-text: #eef2f8;
+  --overlay-hover: rgba(255, 255, 255, 0.1);
+  --overlay-active: rgba(255, 255, 255, 0.16);
+
+  --radius-sm: 7px;
+  --radius: 10px;
+  --radius-lg: 14px;
+  --radius-pill: 999px;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.3);
+  --shadow-pop: 0 16px 40px rgba(0, 0, 0, 0.55), 0 2px 8px rgba(0, 0, 0, 0.4);
+
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+  --duration: 140ms;
+
+  /* Height of the settings window's top band: brand block and page header. */
+  --top-band: 66px;
+
+  font-family: var(--font-ui);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  color: var(--text);
+  background: transparent;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+
+    --bg: #f4f6f9;
+    --bg-sunken: #eaeef3;
+    --bg-elevated: #ffffff;
+    --bg-raised: #ffffff;
+    --bg-hover: rgba(15, 23, 42, 0.05);
+    --bg-active: rgba(15, 23, 42, 0.09);
+    --bg-input: #ffffff;
+
+    --line: rgba(15, 23, 42, 0.1);
+    --line-strong: rgba(15, 23, 42, 0.18);
+
+    --text: #131a24;
+    --text-muted: #55606f;
+    --text-faint: #7d8796;
+
+    --accent: #2563eb;
+    --accent-hover: #1d4ed8;
+    --accent-ink: #ffffff;
+    --accent-soft: rgba(37, 99, 235, 0.1);
+    --accent-line: rgba(37, 99, 235, 0.36);
+
+    --danger: #c23b32;
+    --danger-soft: rgba(194, 59, 50, 0.09);
+    --danger-line: rgba(194, 59, 50, 0.3);
+    --warn: #9a6410;
+    --warn-soft: rgba(154, 100, 16, 0.1);
+    --warn-line: rgba(154, 100, 16, 0.28);
+    --success: #17915f;
+    --record: #d93a31;
+
+    --speaker-1: #2563eb;
+    --speaker-2: #17915f;
+    --speaker-3: #9a6410;
+    --speaker-4: #7c3aed;
+
+    --overlay-bg: rgba(252, 253, 255, 0.88);
+    --overlay-line: rgba(15, 23, 42, 0.14);
+    --overlay-text: #1a212c;
+    --overlay-hover: rgba(15, 23, 42, 0.07);
+    --overlay-active: rgba(15, 23, 42, 0.12);
+
+    --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.1);
+    --shadow: 0 12px 28px rgba(15, 23, 42, 0.12), 0 1px 3px rgba(15, 23, 42, 0.1);
+    --shadow-pop: 0 18px 40px rgba(15, 23, 42, 0.18), 0 2px 6px rgba(15, 23, 42, 0.12);
+  }
+}
+
+/* ---------- base ---------- */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#app {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+html[data-view="console"],
+html[data-view="console"] body {
+  background: transparent;
+}
+
+html:not([data-view="console"]),
+html:not([data-view="console"]) body {
+  background: var(--bg);
+}
+
+/* The console floats over the desktop, so even its first frame is frosted. */
+html[data-view="console"] .boot-state {
+  border-radius: var(--radius-lg);
+  background: var(--overlay-bg);
+  backdrop-filter: blur(20px) saturate(150%);
+}
+
+button,
+input,
+select,
+textarea {
+  font: inherit;
+  color: inherit;
+}
+
+h1,
+h2,
+h3,
+p,
+dl,
+dd {
+  margin: 0;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+::selection {
+  background: var(--accent-soft);
+}
+
+.app-shell {
+  width: 100%;
+  height: 100%;
+}
+
+.scroll-area {
+  overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--line-strong) transparent;
+  overscroll-behavior: contain;
+}
+
+.scroll-area::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+.scroll-area::-webkit-scrollbar-thumb {
+  border: 3px solid transparent;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+  background-clip: content-box;
+}
+
+.scroll-area::-webkit-scrollbar-thumb:hover {
+  background: var(--text-faint);
+  background-clip: content-box;
+}
+
+/* ---------- boot / fatal ---------- */
+
+.boot-state,
+.fatal-state {
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100%;
+  padding: 32px;
+  background: var(--bg);
+}
+
+.boot-state {
+  gap: 14px;
+  grid-auto-flow: row;
+  align-content: center;
+  justify-items: center;
+  color: var(--text-faint);
+  font-size: 13px;
+}
+
+.boot-mark {
+  width: 26px;
+  height: 26px;
+  border: 2px solid var(--line-strong);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+.fatal-state > div {
+  max-width: 460px;
+  display: grid;
+  gap: 10px;
+  justify-items: start;
+}
+
+.fatal-state h1 {
+  font-size: 20px;
+  letter-spacing: -0.01em;
+}
+
+.fatal-state p {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- brand ---------- */
+
+/*
+ * The application icon itself, so the settings window and the desktop icon show
+ * the same mark. The navy card reads on both themes, so there is no light
+ * variant to swap in.
+ */
+.brand-mark {
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  background: url("./assets/brand-mark.png") center / contain no-repeat;
+}
+
+.brand-mark.large {
+  width: 58px;
+  height: 58px;
+}
+
+.eyebrow {
+  color: var(--text-faint);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+/* ---------- controls ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 34px;
+  padding: 0 13px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-raised);
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.btn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: var(--text-faint);
+}
+
+.btn:active:not(:disabled) {
+  background: var(--bg-active);
+}
+
+.btn.primary {
+  border-color: transparent;
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.btn.primary:hover:not(:disabled) {
+  background: var(--accent-hover);
+  border-color: transparent;
+}
+
+.btn.ghost {
+  border-color: transparent;
+  background: transparent;
+  color: var(--text-muted);
+}
+
+.btn.ghost:hover:not(:disabled) {
+  background: var(--bg-hover);
+  border-color: transparent;
+  color: var(--text);
+}
+
+.btn.danger {
+  border-color: var(--danger-line);
+  background: transparent;
+  color: var(--danger);
+}
+
+.btn.danger:hover:not(:disabled) {
+  background: var(--danger-soft);
+  border-color: var(--danger);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.icon-btn {
+  display: inline-grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+}
+
+.icon-btn:hover:not(:disabled) {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.icon-btn:active:not(:disabled) {
+  background: var(--bg-active);
+}
+
+.icon-btn.danger:hover:not(:disabled) {
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.icon-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+
+/* Form fields */
+
+.field {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.field > .field-label {
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.field > .field-hint {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.input,
+.select,
+.textarea {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 11px;
+  border: 1px solid var(--line-strong);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+  transition: border-color var(--duration) var(--ease), box-shadow var(--duration) var(--ease);
+}
+
+.select {
+  appearance: none;
+  padding-right: 32px;
+  background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+    linear-gradient(135deg, currentColor 50%, transparent 50%);
+  background-position: right 14px center, right 9px center;
+  background-size: 5px 5px, 5px 5px;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+.select option {
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+
+.textarea {
+  min-height: 96px;
+  line-height: 1.6;
+  resize: vertical;
+}
+
+.input.mono {
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+.input:focus,
+.select:focus,
+.textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.input:disabled,
+.select:disabled,
+.textarea:disabled {
+  opacity: 0.55;
+  cursor: default;
+}
+
+.input::placeholder,
+.textarea::placeholder {
+  color: var(--text-faint);
+}
+
+/* Switch */
+
+.switch {
+  position: relative;
+  flex-shrink: 0;
+  width: 40px;
+  height: 23px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--radius-pill);
+  background: var(--line-strong);
+  cursor: pointer;
+  transition: background var(--duration) var(--ease);
+}
+
+.switch[aria-checked="true"] {
+  background: var(--accent);
+}
+
+.switch:disabled {
+  opacity: 0.45;
+  cursor: default;
+}
+
+.switch-thumb {
+  position: absolute;
+  top: 2.5px;
+  left: 2.5px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration) var(--ease);
+}
+
+.switch[aria-checked="true"] .switch-thumb {
+  transform: translateX(17px);
+}
+
+/* Segmented control */
+
+.segmented {
+  display: inline-flex;
+  gap: 2px;
+  padding: 2px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+}
+
+.segmented button {
+  min-height: 28px;
+  padding: 0 11px;
+  border: 0;
+  border-radius: 5px;
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+}
+
+.segmented button:hover:not(:disabled):not(.active) {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.segmented button.active {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+
+.segmented:has(button:disabled) {
+  opacity: 0.55;
+}
+
+.segmented button:disabled {
+  cursor: default;
+}
+
+/* Status */
+
+.status-dot {
+  width: 7px;
+  height: 7px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+
+.status-dot.running {
+  background: var(--success);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--success) 20%, transparent);
+}
+
+.status-dot.paused {
+  background: var(--warn);
+}
+
+.status-dot.starting {
+  background: var(--accent);
+  animation: pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+/* Banners */
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  padding: 10px 13px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-sm);
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+  font-size: 12.5px;
+  line-height: 1.55;
+  overflow-wrap: anywhere;
+}
+
+.banner svg {
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.banner.warn {
+  border-color: var(--warn-line);
+  background: var(--warn-soft);
+  color: var(--warn);
+}
+
+.banner.error {
+  border-color: var(--danger-line);
+  background: var(--danger-soft);
+  color: var(--danger);
+}
+
+.banner.info {
+  border-color: var(--accent-line);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+/* Empty state */
+
+.empty-state {
+  display: grid;
+  gap: 6px;
+  justify-items: center;
+  padding: 56px 24px;
+  color: var(--text-faint);
+  text-align: center;
+}
+
+.empty-state strong {
+  margin-top: 6px;
+  color: var(--text-muted);
+  font-size: 14px;
+}
+
+.empty-state span {
+  font-size: 12.5px;
+}
+
+/* ============ console window ============ */
+
+/*
+ * One frosted panel floating over arbitrary desktop content: a control bar,
+ * then the message stream beside the two assistant panes. The two configurable
+ * tints are painted by ::before rather than as the panel's background, so the
+ * frost underneath them survives whatever colour the user picks.
+ */
+.console {
+  position: relative;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  border: 1px solid var(--overlay-line);
+  border-radius: var(--radius-lg);
+  background: var(--overlay-bg);
+  color: var(--overlay-text);
+  backdrop-filter: blur(20px) saturate(150%);
+}
+
+.console::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--console-tint);
+  pointer-events: none;
+  transition: background var(--duration) var(--ease);
+}
+
+.console:hover::before {
+  background: var(--console-hover);
+}
+
+/*
+ * A locked console cannot be moved or resized, so it stops advertising itself
+ * as something the pointer can act on.
+ */
+.console.locked:hover::before {
+  background: var(--console-tint);
+}
+
+/*
+ * Both rows sit above the tint layer. Without a position of their own, the
+ * absolutely positioned ::before would paint over the text.
+ */
+.console-bar,
+.console-body {
+  position: relative;
+  z-index: 1;
+}
+
+.console-bar {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 8px;
+  border-bottom: 1px solid var(--overlay-line);
+}
+
+.console-bar .icon-btn {
+  width: 28px;
+  height: 28px;
+  color: var(--overlay-text);
+  --wails-draggable: no-drag;
+}
+
+.console-bar .icon-btn:hover:not(:disabled) {
+  background: var(--overlay-hover);
+}
+
+.console-bar .icon-btn:active:not(:disabled) {
+  background: var(--overlay-active);
+}
+
+.console-bar .icon-btn.active {
+  background: var(--overlay-active);
+  color: var(--accent);
+}
+
+.console-bar .icon-btn.accent {
+  color: var(--accent);
+}
+
+.console-bar .icon-btn.stop {
+  color: var(--record);
+}
+
+.console-bar .divider {
+  width: 1px;
+  height: 18px;
+  margin: 0 4px;
+  background: var(--overlay-line);
+}
+
+.bar-gap {
+  flex: 1;
+}
+
+.run-time {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  color: var(--overlay-text);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+
+.record-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--record);
+  animation: blink 1.6s ease-in-out infinite;
+}
+
+.record-dot.paused {
+  background: var(--warn);
+  animation: none;
+}
+
+@keyframes blink {
+  50% {
+    opacity: 0.3;
+  }
+}
+
+.console-toast {
+  position: absolute;
+  top: 46px;
+  left: 50%;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: calc(100% - 40px);
+  padding: 8px 13px;
+  border: 1px solid var(--overlay-line);
+  border-radius: var(--radius-pill);
+  background: var(--overlay-bg);
+  color: var(--overlay-text);
+  box-shadow: var(--shadow-pop);
+  backdrop-filter: blur(18px) saturate(150%);
+  font: 12.5px/1.4 var(--font-ui);
+  transform: translateX(-50%);
+  --wails-draggable: no-drag;
+}
+
+.console-toast.error {
+  border-color: var(--danger-line);
+  color: var(--danger);
+}
+
+.console-toast span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/*
+ * The padding keeps the panes off the window's outermost pixels, which belong
+ * to the frontend resize handler Wails arms for frameless windows.
+ */
+.console-body {
+  display: flex;
+  min-height: 0;
+  padding: 0 3px 3px;
+}
+
+.pane {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+
+.stream-pane {
+  flex: 1 1 auto;
+}
+
+.insight-pane {
+  flex: 0 0 var(--pane-insights);
+  width: var(--pane-insights);
+}
+
+.chat-pane {
+  flex: 0 0 var(--pane-chat);
+  width: var(--pane-chat);
+}
+
+.pane-split {
+  flex: 0 0 6px;
+  position: relative;
+  align-self: stretch;
+  cursor: ew-resize;
+  touch-action: none;
+  --wails-draggable: no-drag;
+}
+
+.pane-split::before {
+  content: "";
+  position: absolute;
+  inset: 10px 2px;
+  border-radius: 1px;
+  background: var(--overlay-line);
+  transition: background var(--duration) var(--ease);
+}
+
+.pane-split:hover::before {
+  background: var(--accent-line);
+}
+
+.pane-head {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 4px 7px 10px;
+}
+
+.pane-head h2 {
+  color: var(--overlay-text);
+  font-size: 12px;
+  font-weight: 650;
+  letter-spacing: 0.02em;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+.pane-head .result-count {
+  margin-left: auto;
+}
+
+.pane-head .icon-btn {
+  width: 26px;
+  height: 26px;
+  color: var(--overlay-text);
+  opacity: 0.65;
+}
+
+.pane-head .icon-btn:hover:not(:disabled) {
+  background: var(--overlay-hover);
+  opacity: 1;
+}
+
+.pane-head .icon-btn.active {
+  color: var(--accent);
+  opacity: 1;
+}
+
+/*
+ * .search-field is a flex item inside the pane column; without this it would
+ * stretch down the whole pane instead of sitting under the header.
+ */
+.pane-search {
+  flex: 0 0 auto;
+  max-width: none;
+  margin: 0 10px 6px;
+}
+
+.pane-search .input {
+  height: 30px;
+  font-size: 12.5px;
+}
+
+.search-field {
+  position: relative;
+  flex: 1;
+  max-width: 380px;
+}
+
+.search-field svg {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  color: var(--text-faint);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.search-field .input {
+  padding-left: 32px;
+}
+
+.result-count {
+  color: var(--text-faint);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+.pane-notice {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 10px 6px;
+  padding: 6px 9px;
+  border: 1px solid var(--overlay-line);
+  border-radius: var(--radius-sm);
+  color: var(--text-muted);
+  font-size: 11.5px;
+  line-height: 1.45;
+  /* Endpoint errors quote the whole URL, which has nowhere to break. */
+  overflow-wrap: anywhere;
+}
+
+.pane-notice svg {
+  flex-shrink: 0;
+}
+
+.pane-notice.warn {
+  border-color: var(--warn-line);
+  color: var(--warn);
+}
+
+.pane-notice.error {
+  border-color: var(--danger-line);
+  color: var(--danger);
+}
+
+.pane-error {
+  margin: 0 10px 6px;
+  color: var(--danger);
+  font-size: 11.5px;
+}
+
+.link-btn {
+  margin-left: auto;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.console .empty-state {
+  padding: 22px 12px;
+}
+
+.console .empty-state strong {
+  font-size: 13px;
+}
+
+.console .empty-state span {
+  font-size: 12px;
+}
+
+/* ---------- message stream ---------- */
+
+.stream-body {
+  position: relative;
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+.stream-list {
+  flex: 1;
+  min-height: 0;
+  padding: 2px 8px 10px;
+  outline: none;
+  user-select: text;
+}
+
+.message {
+  display: grid;
+  gap: 2px;
+  padding: 6px 8px 8px;
+  /* Reserved so an attributed message lines up with an unattributed one. */
+  border-left: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  transition: background var(--duration) var(--ease);
+}
+
+.message:hover {
+  background: var(--overlay-hover);
+}
+
+/* A hairline in the speaker's colour keeps long runs of one voice scannable. */
+.message.attributed {
+  border-left-color: color-mix(in srgb, var(--speaker) 55%, transparent);
+}
+
+.message > header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 20px;
+}
+
+.message > header time {
+  color: var(--text-faint);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.message > header .icon-btn {
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  color: var(--overlay-text);
+  opacity: 0;
+  transition: opacity var(--duration) var(--ease);
+}
+
+.message:hover > header .icon-btn,
+.message > header .icon-btn:focus-visible {
+  opacity: 0.75;
+}
+
+.message p {
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.message mark {
+  border-radius: 3px;
+  padding: 0 1px;
+  background: var(--accent-soft);
+  color: inherit;
+}
+
+/* The sentence still being spoken, dimmed until the recognizer finalizes it. */
+.message.live p {
+  opacity: 0.7;
+}
+
+.live-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--text-faint);
+  font-size: 11.5px;
+}
+
+.jump-latest {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px 5px 9px;
+  border: 1px solid var(--overlay-line);
+  border-radius: var(--radius-pill);
+  background: var(--overlay-bg);
+  color: var(--overlay-text);
+  box-shadow: var(--shadow-pop);
+  backdrop-filter: blur(18px) saturate(150%);
+  font: 600 12px var(--font-ui);
+  cursor: pointer;
+  transform: translateX(-50%);
+}
+
+.jump-latest svg {
+  transform: rotate(90deg);
+}
+
+/*
+ * Speakers. Every element that names one takes its colour from --speaker, set
+ * inline from the audio input the sentence came from.
+ */
+
+.speaker-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 0 10px 6px;
+}
+
+.speaker-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border: 1px solid var(--overlay-line);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-muted);
+  font: inherit;
+  font-size: 11.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.speaker-chip:hover {
+  background: var(--overlay-hover);
+}
+
+.speaker-chip.active {
+  border-color: color-mix(in srgb, var(--speaker, var(--accent)) 55%, transparent);
+  background: color-mix(in srgb, var(--speaker, var(--accent)) 14%, transparent);
+  color: var(--speaker, var(--accent));
+}
+
+.speaker-count {
+  color: var(--text-faint);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+}
+
+.speaker-chip.active .speaker-count {
+  color: inherit;
+  opacity: 0.75;
+}
+
+.speaker-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--speaker, var(--accent));
+}
+
+.speaker-tag {
+  padding: 1px 7px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--speaker) 18%, transparent);
+  color: var(--speaker);
+  font-size: 11px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ---------- insights ---------- */
+
+.insight-list,
+.chat-list {
+  flex: 1;
+  min-height: 0;
+  padding: 2px 8px 10px;
+  user-select: text;
+}
+
+/* Says that the older part of the thread is still being carried, compressed. */
+.thread-digest {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 4px 0 8px;
+  color: var(--text-faint);
+  font-size: 11px;
+  line-height: 1.4;
+  cursor: help;
+}
+
+.thread-digest svg {
+  flex-shrink: 0;
+}
+
+.insight-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 2px;
+  padding: 6px 8px 8px;
+  border-radius: var(--radius-sm);
+  transition: background var(--duration) var(--ease);
+}
+
+.insight-row:hover {
+  background: var(--overlay-hover);
+}
+
+.insight-row > header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.insight-row time {
+  color: var(--text-faint);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.insight-row .icon-btn {
+  width: 22px;
+  height: 22px;
+  margin-left: auto;
+  color: var(--overlay-text);
+  opacity: 0;
+  transition: opacity var(--duration) var(--ease);
+}
+
+.insight-row:hover .icon-btn,
+.insight-row .icon-btn:focus-visible {
+  opacity: 0.75;
+}
+
+.insight-row p {
+  font-size: 13px;
+  line-height: 1.6;
+  overflow-wrap: anywhere;
+}
+
+/* ---------- assistant chat ---------- */
+
+/*
+ * A grid column is as wide as its widest item unless it is told otherwise, and
+ * an answer that cites a source arrives with a URL that never breaks. Without
+ * minmax(0, 1fr) that one line decides the card's width and the card leaves the
+ * pane; the wrapping rules below then keep the URL itself inside it.
+ */
+.qa-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 5px;
+  margin-bottom: 8px;
+  padding: 9px 11px;
+  border: 1px solid var(--overlay-line);
+  border-radius: var(--radius);
+  background: var(--overlay-hover);
+}
+
+.qa-row > header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.qa-row > header time {
+  margin-right: auto;
+  color: var(--text-faint);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+}
+
+.qa-row > header .icon-btn {
+  width: 22px;
+  height: 22px;
+  color: var(--overlay-text);
+  opacity: 0.7;
+}
+
+.qa-tag {
+  border-radius: var(--radius-pill);
+  padding: 1px 8px;
+  font-size: 10.5px;
+  font-weight: 600;
+}
+
+.qa-tag.auto {
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+
+.qa-tag.manual {
+  background: var(--overlay-active);
+  color: var(--text-muted);
+}
+
+.qa-question {
+  font-size: 12.5px;
+  font-weight: 650;
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.qa-answer {
+  font-size: 13px;
+  line-height: 1.65;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+/*
+ * 引用链接。没有 href：主窗口不能导航，点击只是让系统浏览器打开，
+ * 完整地址收在 title 里。
+ */
+.qa-link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  cursor: pointer;
+  overflow-wrap: anywhere;
+}
+
+.qa-link:hover {
+  text-decoration-thickness: 2px;
+}
+
+.qa-link:focus-visible {
+  outline: 2px solid var(--accent-line);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.qa-answer.pending {
+  color: var(--text-faint);
+}
+
+.qa-answer.failed {
+  color: var(--danger);
+}
+
+.chat-ask {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 8px 8px;
+  border-top: 1px solid var(--overlay-line);
+}
+
+.chat-ask .input {
+  flex: 1;
+  min-width: 0;
+  height: 30px;
+  font-size: 12.5px;
+}
+
+.chat-ask .icon-btn {
+  width: 30px;
+  height: 30px;
+  color: var(--accent);
+}
+
+.chat-ask .icon-btn:hover:not(:disabled) {
+  background: var(--overlay-hover);
+}
+/* ============ settings window ============ */
+
+.settings-layout {
+  display: grid;
+  grid-template-columns: 208px minmax(0, 1fr);
+  height: 100%;
+  background: var(--bg);
+}
+
+.settings-sidebar {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+  padding: 0 12px 12px;
+  border-right: 1px solid var(--line);
+  background: var(--bg-sunken);
+}
+
+/*
+ * The brand block and the page header form one band across the top of the
+ * window, so they share a height and both close with the same hairline. The
+ * negative inline margin lets that hairline reach the sidebar's edges.
+ */
+.sidebar-brand {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 11px;
+  height: var(--top-band);
+  margin: 0 -12px 14px;
+  padding: 0 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sidebar-brand div {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.sidebar-brand strong {
+  font-size: 15px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+}
+
+.sidebar-brand small {
+  color: var(--text-faint);
+  font-size: 11.5px;
+}
+
+.settings-nav {
+  display: grid;
+  gap: 2px;
+  /*
+   * The nav absorbs the squeeze when the window is too short for the whole
+   * sidebar, so the layout row never grows past the window. The inline
+   * padding keeps the focus ring from being clipped by the scroll container.
+   */
+  min-height: 0;
+  overflow: hidden auto;
+  padding-inline: 3px;
+  margin-inline: -3px;
+}
+
+.settings-nav button {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 34px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-muted);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition: background var(--duration) var(--ease), color var(--duration) var(--ease);
+}
+
+.settings-nav button:hover:not(.active) {
+  background: var(--bg-hover);
+  color: var(--text);
+}
+
+.settings-nav button.active {
+  background: var(--accent-soft);
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.settings-nav button svg {
+  flex-shrink: 0;
+  opacity: 0.9;
+}
+
+.sidebar-footer {
+  display: grid;
+  flex-shrink: 0;
+  gap: 8px;
+  margin-top: auto;
+  padding: 12px 8px 4px;
+  border-top: 1px solid var(--line);
+}
+
+.sidebar-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+.sidebar-status .run-clock {
+  margin-left: auto;
+  color: var(--text-faint);
+  font-variant-numeric: tabular-nums;
+}
+
+.settings-main {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  min-width: 0;
+  /*
+   * Without min-height the automatic minimum size of this grid item is its full
+   * content height, so the layout row grows past the window instead of letting
+   * .settings-content scroll. Everything below the fold then gets clipped by
+   * the overflow:hidden on html/body and no wheel event can reach it.
+   */
+  min-height: 0;
+}
+
+.settings-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: var(--top-band);
+  padding: 0 32px;
+  border-bottom: 1px solid var(--line);
+}
+
+.settings-header > div {
+  display: grid;
+  gap: 2px;
+}
+
+.settings-header h1 {
+  font-size: 20px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+}
+
+.save-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: 24px;
+  color: var(--text-faint);
+  font-size: 12px;
+  opacity: 0;
+  transition: opacity var(--duration) var(--ease);
+}
+
+.save-indicator.saving,
+.save-indicator.saved,
+.save-indicator.error {
+  opacity: 1;
+}
+
+.save-indicator.saved {
+  color: var(--success);
+}
+
+.save-indicator.error {
+  color: var(--danger);
+}
+
+.settings-content {
+  display: grid;
+  align-content: start;
+  gap: 16px;
+  min-height: 0;
+  padding: 22px 32px 40px;
+}
+
+.settings-content > * {
+  width: 100%;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--bg-elevated);
+}
+
+.card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.card-header h2 {
+  font-size: 14.5px;
+  font-weight: 650;
+}
+
+.card-header p {
+  margin-top: 4px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.card.disabled {
+  opacity: 0.6;
+}
+
+.card-body {
+  display: grid;
+  gap: 16px;
+}
+
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.switch-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.switch-row > div {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.switch-row strong {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.switch-row small {
+  color: var(--text-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  min-width: 0;
+}
+
+.input-row > svg {
+  flex-shrink: 0;
+  color: var(--text-faint);
+}
+
+.banner > span {
+  min-width: 0;
+}
+
+.field-note {
+  padding: 10px 13px;
+  border-left: 2px solid var(--accent-line);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--accent-soft);
+  color: var(--text-muted);
+  font-size: 12.5px;
+  line-height: 1.6;
+}
+
+/* Colour picker */
+
+.color-field {
+  display: grid;
+  gap: 11px;
+  padding: 13px 14px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--bg-input);
+  transition: border-color var(--duration) var(--ease);
+}
+
+.color-field:hover {
+  border-color: var(--line-strong);
+}
+
+.color-name {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-size: 12.5px;
+  font-weight: 600;
+}
+
+.color-name code {
+  color: var(--text-faint);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.color-controls {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) 34px;
+  align-items: center;
+  gap: 12px;
+}
+
+/*
+ * The swatch shows the colour over a checkerboard so the alpha is visible. The
+ * checker is a fixed neutral rather than a token: it has to read as "nothing
+ * behind this" on both themes.
+ */
+.color-swatch {
+  position: relative;
+  width: 38px;
+  height: 30px;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid var(--line-strong);
+  background-color: #ffffff;
+  background-image: linear-gradient(45deg, rgba(128, 128, 128, 0.34) 25%, transparent 25%),
+    linear-gradient(-45deg, rgba(128, 128, 128, 0.34) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, rgba(128, 128, 128, 0.34) 75%),
+    linear-gradient(-45deg, transparent 75%, rgba(128, 128, 128, 0.34) 75%);
+  background-size: 10px 10px;
+  background-position: 0 0, 0 5px, 5px -5px, -5px 0;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.12);
+}
+
+.color-swatch input {
+  position: absolute;
+  inset: -4px;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.color-swatch .swatch-fill {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Opacity slider: the platform control is far heavier than everything else. */
+.color-controls input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  min-width: 0;
+  height: 16px;
+  margin: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.color-controls input[type="range"]::-webkit-slider-runnable-track {
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: linear-gradient(
+    to right,
+    var(--accent) 0 var(--fill, 100%),
+    var(--line-strong) var(--fill, 100%) 100%
+  );
+}
+
+.color-controls input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 14px;
+  height: 14px;
+  margin-top: -5px;
+  border: 1px solid var(--line-strong);
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--duration) var(--ease);
+}
+
+.color-controls input[type="range"]:hover::-webkit-slider-thumb {
+  transform: scale(1.12);
+}
+
+.color-controls input[type="range"]:focus-visible::-webkit-slider-thumb {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-soft);
+}
+
+.color-controls output {
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-variant-numeric: tabular-nums;
+  text-align: right;
+}
+
+/* Caption preview */
+
+/*
+ * A stand-in desktop with a slice of the console on top of it, so the colours
+ * are judged against the frosted panel they will actually be drawn on.
+ */
+.caption-preview {
+  display: grid;
+  place-items: center;
+  min-height: 118px;
+  padding: 18px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background-color: #2f3846;
+  background-image: linear-gradient(135deg, #3a4557 0%, #232a36 55%, #171d27 100%);
+  overflow: hidden;
+}
+
+.caption-preview-panel {
+  position: relative;
+  width: 100%;
+  padding: 11px 13px;
+  border: 1px solid var(--overlay-line);
+  border-radius: var(--radius);
+  background: var(--overlay-bg);
+  /* Matches .console, so a caption that inherits its colour matches too. */
+  color: var(--overlay-text);
+  backdrop-filter: blur(20px) saturate(150%);
+}
+
+.caption-preview-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: var(--console-tint);
+  pointer-events: none;
+}
+
+.caption-preview-text {
+  position: relative;
+  z-index: 1;
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+}
+
+/* Audio inputs */
+
+.audio-input {
+  display: grid;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.audio-input:last-of-type {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.audio-input.captured {
+  /* Pull the block out to its card's edge so the speaker's colour reads as a
+     band down the side of the input that is actually recording. */
+  margin: 0 -16px;
+  padding: 14px 16px;
+  border-left: 2px solid color-mix(in srgb, var(--speaker) 55%, transparent);
+  border-radius: var(--radius-sm);
+  background: color-mix(in srgb, var(--speaker) 6%, transparent);
+}
+
+.audio-input .switch-row strong {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* Resources */
+
+.resource-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 13px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.resource-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.resource-info {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.resource-info strong {
+  font-size: 13.5px;
+  font-weight: 600;
+}
+
+.resource-info span {
+  color: var(--text-muted);
+  font-size: 12px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.resource-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-faint);
+  font-size: 11.5px;
+}
+
+.resource-actions {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 1px 7px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  color: var(--text-muted);
+  font-size: 11px;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.tag.installed {
+  border-color: color-mix(in srgb, var(--success) 40%, transparent);
+  color: var(--success);
+}
+
+.tag.update {
+  border-color: var(--accent-line);
+  color: var(--accent);
+}
+
+.tag.blocked {
+  border-color: var(--danger-line);
+  color: var(--danger);
+}
+
+.progress {
+  width: 90px;
+  height: 4px;
+  border-radius: var(--radius-pill);
+  background: var(--line);
+  overflow: hidden;
+}
+
+.progress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--accent);
+  transition: width 180ms var(--ease);
+}
+
+/* About */
+
+.about-hero {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.about-hero h2 {
+  font-size: 18px;
+  font-weight: 650;
+}
+
+.about-hero p {
+  margin-top: 3px;
+  color: var(--text-muted);
+  font-size: 12.5px;
+}
+
+.about-list div {
+  display: grid;
+  grid-template-columns: 116px minmax(0, 1fr);
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+  font-size: 12.5px;
+}
+
+.about-list div:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+
+.about-list dt {
+  color: var(--text-muted);
+}
+
+.about-list dd {
+  overflow-wrap: anywhere;
+  font-family: var(--font-mono);
+  font-size: 12px;
+}
+
+/* ---------- responsive ---------- */
+
+@media (max-width: 820px) {
+  .settings-layout {
+    grid-template-columns: 62px minmax(0, 1fr);
+  }
+
+  .settings-sidebar {
+    padding: 16px 8px 10px;
+  }
+
+  .sidebar-brand div,
+  .settings-nav button span,
+  .sidebar-status span:not(.status-dot) {
+    display: none;
+  }
+
+  .settings-nav button {
+    justify-content: center;
+    padding: 0;
+  }
+
+  .settings-header,
+  .settings-content {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+
+  .grid-2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

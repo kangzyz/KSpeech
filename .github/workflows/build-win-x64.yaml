@@ -1,0 +1,87 @@
+name: Build Windows x64
+
+on:
+  push:
+    branches:
+      - master
+    tags:
+      - "v*"
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: windows-2025
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          version: 11.16.0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: "22"
+          cache: pnpm
+          cache-dependency-path: frontend/pnpm-lock.yaml
+
+      - name: Set up Go
+        uses: actions/setup-go@v7
+        with:
+          go-version-file: go.mod
+          cache: true
+          cache-dependency-path: go.sum
+
+      - name: Verify MinGW-w64 x64
+        shell: pwsh
+        run: |
+          gcc --version
+          $target = (gcc -dumpmachine).Trim()
+          if ($target -notmatch '^x86_64-w64-mingw32') {
+            throw "Expected an x64 MinGW-w64 compiler, got: $target"
+          }
+
+      - name: Test and build production package
+        shell: pwsh
+        run: ./scripts/build-windows.ps1
+
+      - name: Upload Windows x64 artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: KSpeech.win-x64
+          path: publish/
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: windows-2025
+    permissions:
+      contents: write
+    steps:
+      - name: Download Windows x64 artifact
+        uses: actions/download-artifact@v8
+        with:
+          name: KSpeech.win-x64
+          path: app
+
+      - name: Create release archive
+        shell: pwsh
+        run: Compress-Archive -Path app/* -DestinationPath KSpeech.win-x64.zip
+
+      - name: Create GitHub release
+        uses: softprops/action-gh-release@v3
+        with:
+          files: KSpeech.win-x64.zip
+          generate_release_notes: true
